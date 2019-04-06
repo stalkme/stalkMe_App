@@ -39,6 +39,13 @@ class _MyAppState extends State<MyApp> {
           ),
           myLocationEnabled: true,
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Test1')),
+            BottomNavigationBarItem(icon: Icon(Icons.business), title: Text('text2')),
+            BottomNavigationBarItem(icon: Icon(Icons.school), title: Text('text3')),
+          ]
+        ),
       ),
     );
   }
