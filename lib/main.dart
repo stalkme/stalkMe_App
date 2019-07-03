@@ -4,7 +4,7 @@ import 'Maps.dart';
 
 void main() => runApp(MaterialApp(
   title: 'Stalk Me',
-  initialRoute: '/maps',
+  initialRoute: '/',
   routes: {
     '/': (context) => LoginScreen(),
     '/maps': (context) => MapsMainScreen(),

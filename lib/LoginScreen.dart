@@ -125,9 +125,9 @@ class _LoginFormState extends State<LoginForm> {
                     ]
                 ),
                 child: IconButton(
-                  padding: EdgeInsets.only(bottom: 15),
+                  padding: EdgeInsets.only(bottom: 0),
                     icon: Icon(Icons.arrow_forward, color: Colors.white, size: 45),
-                  onPressed: (){Navigator.pushNamed(context, '/maps');},
+                  onPressed: (){Navigator.pushNamed(context, '/maps', arguments: myController.text);},
                 ),
           )
         ],
