@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'widgets/navBar.dart';
 
-class MapsMainScreen extends StatelessWidget {
+class MapsMainScreen extends StatefulWidget {
+  //MapsMainScreen({Key key, @required this.userName}) : super(key: key);
+  @override
+  _MapsMainScreenState createState() => _MapsMainScreenState();
+}
+
+class _MapsMainScreenState extends State<MapsMainScreen> {
+  String username;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      //Getting username from login screen. Future allow to use context.
+      this.username = ModalRoute.of(context).settings.arguments;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final String userName = ModalRoute.of(context).settings.arguments;
-    print(userName);
     return Scaffold(
       appBar: AppBar(
         title: Text('Dev only'),
@@ -14,7 +29,12 @@ class MapsMainScreen extends StatelessWidget {
       body: Stack(
         children: <Widget>[
           Maps(),
-          BottomNavBar(),
+          BottomMenu(),
+          FloatingActionButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/tests');
+            },
+          ),
         ],
       ),
     );
@@ -47,104 +67,13 @@ class _MapsState extends State<Maps> {
   }
 }
 
-class BottomNavBar extends StatefulWidget {
-  @override
-  _BottomNavBarState createState() => _BottomNavBarState();
-}
-
-class _BottomNavBarState extends State<BottomNavBar>
-    with TickerProviderStateMixin {
-
-  AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-      value: 20,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
+class BottomMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Container(
-          child: child,
-          alignment: Alignment(0, _controller.value),
-        );
-      },
-      child: Nav(),
-    );
-  }
-}
-
-class Nav extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+    // TODO: implement build
     return Container(
       alignment: Alignment.bottomCenter,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            width: 200,
-            height: 43,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [const Color(0xFFFF416C), const Color(0xFFFF4B2B)]),
-                borderRadius: BorderRadius.all(Radius.circular(22)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0x26000000),
-                    offset: Offset(0, 3),
-                    blurRadius: 6,
-                  )
-                ]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.supervisor_account,
-                      color: Colors.white, size: 35),
-                  onPressed: () {},
-                  padding: EdgeInsets.only(bottom: 2, left: 20),
-                ),
-                IconButton(
-                  icon: Icon(Icons.filter_list, color: Colors.white, size: 34),
-                  onPressed: () {},
-                  padding: EdgeInsets.only(bottom: 2, right: 20),
-                )
-              ],
-            ),
-          ),
-          Container(
-            width: 64,
-            height: 61,
-            margin: EdgeInsets.only(bottom: 20),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [const Color(0xFFFF416C), const Color(0xFFFF4B2B)]),
-            ),
-            child: IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.gps_fixed, color: Colors.white, size: 35)),
-          )
-        ],
-      ),
+      child: NavBar(),
     );
   }
 }

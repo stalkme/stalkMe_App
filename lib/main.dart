@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'LoginScreen.dart';
-import 'Maps.dart';
+import 'loginScreen.dart';
+import 'maps.dart';
+import 'TestingUnit.dart';
 
 void main() => runApp(MaterialApp(
   title: 'Stalk Me',
@@ -8,5 +9,6 @@ void main() => runApp(MaterialApp(
   routes: {
     '/': (context) => LoginScreen(),
     '/maps': (context) => MapsMainScreen(),
+    '/tests': (context) => TestingUnit(),
   },
 ));
