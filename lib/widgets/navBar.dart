@@ -1,6 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:stalkme_app/util/deviceSize.dart';
 
-class NavBar extends StatelessWidget {
+class NavBar extends StatefulWidget {
+  NavBar({Key key, this.tabController, this.animationController})
+      : super(key: key);
+  TabController tabController;
+  AnimationController animationController;
+
+  @override
+  _NavBarState createState() => _NavBarState();
+}
+
+class _NavBarState extends State<NavBar> {
+  Animation<Color> _leftIconAnimation;
+  Animation<Color> _rightIconAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _rightIconAnimation =
+        ColorTween(begin: Colors.white, end: Color(0xffd8d8d8))
+            .animate(widget.tabController.animation);
+    _leftIconAnimation = ColorTween(begin: Color(0xffd8d8d8), end: Colors.white)
+        .animate(widget.tabController.animation);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -25,17 +49,40 @@ class NavBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.supervisor_account,
-                    color: Colors.white, size: 35),
-                onPressed: () {},
-                padding: EdgeInsets.only(bottom: 2, left: 20),
-              ),
-              IconButton(
-                icon: Icon(Icons.filter_list, color: Colors.white, size: 34),
-                onPressed: () {},
-                padding: EdgeInsets.only(bottom: 2, right: 20),
-              )
+              AnimatedBuilder(
+                  animation: widget.tabController.animation,
+                  builder: (BuildContext context, Widget child) {
+                    return IconButton(
+                      icon: Icon(Icons.supervisor_account,
+                          color: (widget.animationController.value != 0)
+                              ? _leftIconAnimation.value
+                              : Colors.white,
+                          size: 35),
+                      onPressed: () {
+                        widget.tabController.animateTo(0);
+                        if (widget.animationController.value == 0)
+                          widget.animationController.animateTo(1);
+                      },
+                      padding: EdgeInsets.only(bottom: 2, left: 20),
+                    );
+                  }),
+              AnimatedBuilder(
+                  animation: widget.tabController.animation,
+                  builder: (BuildContext context, Widget child) {
+                    return IconButton(
+                      icon: Icon(Icons.filter_list,
+                          color: (widget.animationController.value != 0)
+                              ? _rightIconAnimation.value
+                              : Colors.white,
+                          size: 34),
+                      onPressed: () {
+                        widget.tabController.animateTo(1);
+                        if (widget.animationController.value == 0)
+                          widget.animationController.animateTo(1);
+                      },
+                      padding: EdgeInsets.only(bottom: 2, right: 20),
+                    );
+                  }),
             ],
           ),
         ),

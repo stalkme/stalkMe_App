@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'loginScreen.dart';
-import 'maps.dart';
-import 'TestingUnit.dart';
+import 'package:stalkme_app/loginScreen.dart';
+import 'package:stalkme_app/maps.dart';
 
 void main() => runApp(MaterialApp(
-  title: 'Stalk Me',
-  initialRoute: '/',
-  routes: {
-    '/': (context) => LoginScreen(),
-    '/maps': (context) => MapsMainScreen(),
-    '/tests': (context) => TestingUnit(),
-  },
-));
+      title: 'Stalk Me',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoginScreen(),
+        '/maps': (context) => MapsMainScreen(),
+      },
+    ));

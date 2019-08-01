@@ -5,8 +5,8 @@ class FriendTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: 20,
-      itemBuilder: (BuildContext context, int id){
-        return Text('This is text nr $id');
+      itemBuilder: (BuildContext context, int id) {
+        return Text('This is text nr $id in friends');
       },
     );
   }

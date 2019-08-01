@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stalkme_app/util/deviceSize.dart';
 
 class LoginScreen extends StatelessWidget {
   //final _loginField = GlobalKey<FormState>();
@@ -6,7 +7,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
       width: size.width,
