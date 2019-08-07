@@ -4,8 +4,8 @@ import 'package:stalkme_app/util/deviceSize.dart';
 class NavBar extends StatefulWidget {
   NavBar({Key key, this.tabController, this.animationController})
       : super(key: key);
-  TabController tabController;
-  AnimationController animationController;
+  final TabController tabController;
+  final AnimationController animationController;
 
   @override
   _NavBarState createState() => _NavBarState();

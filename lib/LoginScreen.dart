@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -7,6 +8,10 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
@@ -66,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    size = MediaQuery.of(context).size;
     return Form(
         key: _formKey,
         child: Column(

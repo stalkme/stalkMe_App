@@ -16,9 +16,6 @@ class _MapsMainScreenState extends State<MapsMainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dev only'),
-      ),
       body: Stack(
         children: <Widget>[
           Maps(),
