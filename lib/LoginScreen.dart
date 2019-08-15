@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
+import 'package:location/location.dart';
+import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class LoginScreen extends StatelessWidget {
-  //final _loginField = GlobalKey<FormState>();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    locationUtil.initLocation();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

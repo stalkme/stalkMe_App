@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stalkme_app/widgets/BottomMenu.dart';
+import 'package:location/location.dart';
+import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class MapsMainScreen extends StatefulWidget {
-  //MapsMainScreen({Key key, @required this.userName}) : super(key: key);
   @override
   _MapsMainScreenState createState() => _MapsMainScreenState();
 }
@@ -34,8 +35,12 @@ class Maps extends StatefulWidget {
 
 class _MapsState extends State<Maps> {
   Completer<GoogleMapController> _controller = Completer();
+  LatLng _center = LatLng(locationUtil.locationData.latitude, locationUtil.locationData.longitude);
 
-  static const LatLng _center = const LatLng(45.521563, -122.677433);
+  @override
+  void initState() {
+    super.initState();
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
@@ -47,7 +52,7 @@ class _MapsState extends State<Maps> {
       onMapCreated: _onMapCreated,
       initialCameraPosition: CameraPosition(
         target: _center,
-        zoom: 11.0,
+        zoom: 16.0,
       ),
     );
   }
