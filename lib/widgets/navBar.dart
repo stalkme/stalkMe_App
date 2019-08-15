@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
+import 'dart:async';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class NavBar extends StatefulWidget {
-  NavBar({Key key, this.tabController, this.animationController})
+  NavBar({Key key, this.tabController, this.animationController, this.controller})
       : super(key: key);
   final TabController tabController;
   final AnimationController animationController;
+  final Completer<GoogleMapController> controller;
 
   @override
   _NavBarState createState() => _NavBarState();
@@ -23,6 +27,14 @@ class _NavBarState extends State<NavBar> {
             .animate(widget.tabController.animation);
     _leftIconAnimation = ColorTween(begin: Color(0xffd8d8d8), end: Colors.white)
         .animate(widget.tabController.animation);
+  }
+
+  Future<void> centerMapPosition() async {
+    GoogleMapController mapController = await widget.controller.future;
+    locationUtil.getLocation();
+    mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(locationUtil.locationData.latitude,
+            locationUtil.locationData.longitude), zoom: 16.0)));
   }
 
   @override
@@ -98,7 +110,7 @@ class _NavBarState extends State<NavBar> {
                 colors: [const Color(0xFFFF416C), const Color(0xFFFF4B2B)]),
           ),
           child: IconButton(
-              onPressed: () {},
+              onPressed: () {centerMapPosition();},
               icon: Icon(Icons.gps_fixed, color: Colors.white, size: 35)),
         )
       ],

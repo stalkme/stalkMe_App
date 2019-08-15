@@ -8,7 +8,7 @@ bool _permission = false;
 Location location = Location();
 LocationData locationData;
 
-initLocation() async {
+getLocation() async {
   await location.changeSettings(
       accuracy: LocationAccuracy.HIGH, interval: 1000);
   try {
@@ -19,7 +19,10 @@ initLocation() async {
       print("Permission: $_permission");
       if (_permission) {
         locationData = await location.getLocation();
-        print("${locationData.latitude}  ${locationData.longitude}");
+//        print("${locationData.latitude}  ${locationData.longitude}");
+//        location.onLocationChanged().listen((LocationData changedLocation) {
+//          locationData = changedLocation;
+//        });
       }
     }
   } on PlatformException catch (e) {

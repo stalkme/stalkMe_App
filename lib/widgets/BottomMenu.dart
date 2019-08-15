@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'package:stalkme_app/tabs/friendTab.dart';
 import 'package:stalkme_app/tabs/filterTab.dart';
 import 'package:stalkme_app/widgets/navBar.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class BottomMenu extends StatefulWidget {
+  BottomMenu({Key key, @required this.controller}) : super(key: key);
+  final Completer<GoogleMapController> controller;
   @override
   _BottomMenuState createState() => _BottomMenuState();
 }
@@ -77,8 +82,10 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
             child: Column(
               children: <Widget>[
                 NavBar(
-                    tabController: tabController,
-                    animationController: _animationController),
+                  tabController: tabController,
+                  animationController: _animationController,
+                  controller: widget.controller,
+                ),
                 SizedBox(height: 5),
                 ContextMenu(tabController: tabController),
               ],

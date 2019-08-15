@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stalkme_app/widgets/BottomMenu.dart';
-import 'package:location/location.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class MapsMainScreen extends StatefulWidget {
@@ -13,15 +12,17 @@ class MapsMainScreen extends StatefulWidget {
 
 class _MapsMainScreenState extends State<MapsMainScreen> {
   String username;
+  Completer<GoogleMapController> controller = Completer();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Maps(),
-          //BottomMenu(),
-          Align(alignment: Alignment.bottomCenter, child: BottomMenu()),
+          Maps(controller: controller),
+          Align(
+              alignment: Alignment.bottomCenter,
+              child: BottomMenu(controller: controller)),
         ],
       ),
     );
@@ -29,21 +30,23 @@ class _MapsMainScreenState extends State<MapsMainScreen> {
 }
 
 class Maps extends StatefulWidget {
+  Maps({Key key, @required this.controller}) : super(key: key);
+  final Completer<GoogleMapController> controller;
   @override
   _MapsState createState() => _MapsState();
 }
 
 class _MapsState extends State<Maps> {
-  Completer<GoogleMapController> _controller = Completer();
-  LatLng _center = LatLng(locationUtil.locationData.latitude, locationUtil.locationData.longitude);
+  LatLng _center = LatLng(
+      locationUtil.locationData.latitude, locationUtil.locationData.longitude);
 
   @override
   void initState() {
     super.initState();
   }
 
-  void _onMapCreated(GoogleMapController controller) {
-    _controller.complete(controller);
+  void _onMapCreated(GoogleMapController mapController) {
+    widget.controller.complete(mapController);
   }
 
   @override
