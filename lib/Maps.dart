@@ -39,10 +39,41 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   LatLng _center = LatLng(
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
+  final Set<Marker> _markers = {};
 
   @override
   void initState() {
     super.initState();
+    updateMapMarkers();
+    _markers.add(Marker(
+      markerId: MarkerId('user'),
+      position: LatLng(locationUtil.locationData.latitude,
+          locationUtil.locationData.longitude),
+      infoWindow: InfoWindow(
+        title: 'Rafalsz',
+        snippet: 'This is my message',
+      ),
+      icon: BitmapDescriptor.defaultMarker,
+    ));
+  }
+
+  void updateMapMarkers() {
+    Timer.periodic(Duration(seconds: 10), (timer) {
+      setState(() {
+        locationUtil.getLocation();
+        _markers.clear();
+        _markers.add(Marker(
+          markerId: MarkerId('user'),
+          position: LatLng(locationUtil.locationData.latitude,
+              locationUtil.locationData.longitude),
+          infoWindow: InfoWindow(
+            title: 'Rafalsz',
+            snippet: 'This is my message',
+          ),
+          icon: BitmapDescriptor.defaultMarker,
+        ));
+      });
+    });
   }
 
   void _onMapCreated(GoogleMapController mapController) {
@@ -57,6 +88,7 @@ class _MapsState extends State<Maps> {
         target: _center,
         zoom: 16.0,
       ),
+      markers: _markers,
     );
   }
 }
