@@ -95,7 +95,7 @@ class _SearchBarState extends State<SearchBar> {
             hintText: 'Find a friend',
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 7),
-            
+
           ),
         ),
       ),

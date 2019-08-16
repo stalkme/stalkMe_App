@@ -55,6 +55,8 @@ flutter:
     - assets/filterGraphics/partying.jpg
     - assets/filterGraphics/running.jpg
     - assets/filterGraphics/volleyball.jpg
+    - assets/mapsPins/user.png
+    - assets/mapsPins/others.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

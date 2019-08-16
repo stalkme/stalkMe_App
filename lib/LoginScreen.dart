@@ -4,6 +4,7 @@ import 'package:location/location.dart';
 
 import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
+import 'package:stalkme_app/util/userInfo.dart' as userInfo;
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -129,8 +130,8 @@ class _LoginFormState extends State<LoginForm> {
                 padding: EdgeInsets.only(bottom: 0),
                 icon: Icon(Icons.arrow_forward, color: Colors.white, size: 45),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/maps',
-                      arguments: myController.text);
+                  userInfo.username = myController.text;
+                  Navigator.pushNamed(context, '/maps');
                 },
               ),
             )

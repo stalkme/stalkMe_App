@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:stalkme_app/util/deviceSize.dart';
+import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/widgets/BottomMenu.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
+import 'package:stalkme_app/util/userInfo.dart' as userInfo;
 
 class MapsMainScreen extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class MapsMainScreen extends StatefulWidget {
 }
 
 class _MapsMainScreenState extends State<MapsMainScreen> {
-  String username;
   Completer<GoogleMapController> controller = Completer();
 
   @override
@@ -40,52 +40,57 @@ class Maps extends StatefulWidget {
 class _MapsState extends State<Maps> {
   LatLng _center = LatLng(
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
-  final Set<Marker> _markers = {};
+  final Set<Marker> _markers = Set();
+  BitmapDescriptor userIcon;
+  BitmapDescriptor othersIcon;
 
   @override
   void initState() {
     super.initState();
+    BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(size: Size(1, 1)), 'assets/mapsPins/user.png')
+        .then((onValue) {
+      userIcon = onValue;
+    });
+    BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(1, 1)), 'assets/mapsPins/others.png')
+        .then((onValue) {
+      othersIcon = onValue;
+    });
     updateMapMarkers();
   }
 
   void updateMapMarkers() {
     //Every 10 seconds update markers set, starting with users marker
-    Timer.periodic(Duration(seconds: 10), (timer) {
+    setState(() {
+      addUserPin();
+    });
+
+    Timer.periodic(Duration(seconds: 10), (Timer timer) {
       setState(() {
         locationUtil.getLocation();
-        _markers.clear();
-        _markers.add(Marker(
-          markerId: MarkerId('user'),
-          position: LatLng(locationUtil.locationData.latitude,
-              locationUtil.locationData.longitude),
-          infoWindow: InfoWindow(
-            title: 'Rafalsz',
-            snippet: 'This is my message',
-          ),
-          //TODO: Change icon to custom icon
-          icon: BitmapDescriptor.defaultMarker,
-        ));
-
-        //TODO: Add markers received from server
+        addUserPin();
+        //TODO: Add connection to the server and create pins for each user
       });
     });
   }
 
+  void addUserPin() {
+    _markers.clear();
+    _markers.add(Marker(
+      markerId: MarkerId('user'),
+      position: LatLng(locationUtil.locationData.latitude,
+          locationUtil.locationData.longitude),
+      infoWindow: InfoWindow(
+        title: userInfo.username,
+        snippet: userInfo.msg,
+      ),
+      icon: userIcon,
+    ));
+  }
+
   void _onMapCreated(GoogleMapController mapController) {
     widget.controller.complete(mapController);
-    //On start add manually markers
-    setState(() {
-      _markers.add(Marker(
-        markerId: MarkerId('user'),
-        position: LatLng(locationUtil.locationData.latitude,
-            locationUtil.locationData.longitude),
-        infoWindow: InfoWindow(
-          title: 'Rafalsz',
-          snippet: 'This is my message',
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      ));
-    });
   }
 
   @override
