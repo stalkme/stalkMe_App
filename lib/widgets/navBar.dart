@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stalkme_app/util/deviceSize.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class NavBar extends StatefulWidget {

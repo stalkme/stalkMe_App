@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:stalkme_app/tabs/friendTab.dart';
 import 'package:stalkme_app/tabs/filterTab.dart';
 import 'package:stalkme_app/widgets/navBar.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class BottomMenu extends StatefulWidget {

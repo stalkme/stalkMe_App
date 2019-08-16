@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/widgets/BottomMenu.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
@@ -45,19 +46,10 @@ class _MapsState extends State<Maps> {
   void initState() {
     super.initState();
     updateMapMarkers();
-    _markers.add(Marker(
-      markerId: MarkerId('user'),
-      position: LatLng(locationUtil.locationData.latitude,
-          locationUtil.locationData.longitude),
-      infoWindow: InfoWindow(
-        title: 'Rafalsz',
-        snippet: 'This is my message',
-      ),
-      icon: BitmapDescriptor.defaultMarker,
-    ));
   }
 
   void updateMapMarkers() {
+    //Every 10 seconds update markers set, starting with users marker
     Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
         locationUtil.getLocation();
@@ -70,14 +62,30 @@ class _MapsState extends State<Maps> {
             title: 'Rafalsz',
             snippet: 'This is my message',
           ),
+          //TODO: Change icon to custom icon
           icon: BitmapDescriptor.defaultMarker,
         ));
+
+        //TODO: Add markers received from server
       });
     });
   }
 
   void _onMapCreated(GoogleMapController mapController) {
     widget.controller.complete(mapController);
+    //On start add manually markers
+    setState(() {
+      _markers.add(Marker(
+        markerId: MarkerId('user'),
+        position: LatLng(locationUtil.locationData.latitude,
+            locationUtil.locationData.longitude),
+        infoWindow: InfoWindow(
+          title: 'Rafalsz',
+          snippet: 'This is my message',
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+      ));
+    });
   }
 
   @override

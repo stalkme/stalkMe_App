@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:stalkme_app/util/deviceSize.dart';
 import 'dart:math' as math;
+
+import 'package:stalkme_app/util/deviceSize.dart';
 
 class FriendTab extends StatefulWidget {
   @override

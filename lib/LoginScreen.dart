@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:location/location.dart';
+
+import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class LoginScreen extends StatelessWidget {
@@ -10,6 +11,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     locationUtil.getLocation();
+    //TODO: Prevent from going further if there is no GPS permission.
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
