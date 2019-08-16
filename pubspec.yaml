@@ -43,7 +43,18 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
+    - assets/filterGraphics/basketball.jpg
+    - assets/filterGraphics/beer.jpg
+    - assets/filterGraphics/climbing.jpg
+    - assets/filterGraphics/coffee.jpg
+    - assets/filterGraphics/dog_walking.jpg
+    - assets/filterGraphics/driving.jpg
+    - assets/filterGraphics/football.jpg
     - assets/filterGraphics/grill.jpg
+    - assets/filterGraphics/learning.jpg
+    - assets/filterGraphics/partying.jpg
+    - assets/filterGraphics/running.jpg
+    - assets/filterGraphics/volleyball.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
