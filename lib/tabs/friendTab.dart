@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-import 'package:stalkme_app/util/deviceSize.dart';
+import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 
 class FriendTab extends StatefulWidget {
   @override
@@ -76,7 +76,7 @@ class _SearchBarState extends State<SearchBar> {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        width: size.width * 0.85,
+        width: deviceSize.size.width * 0.85,
         height: 35,
         decoration: BoxDecoration(
             color: Color(0xffe0e0e0),
@@ -95,6 +95,7 @@ class _SearchBarState extends State<SearchBar> {
             hintText: 'Find a friend',
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(top: 7),
+            
           ),
         ),
       ),
@@ -109,18 +110,19 @@ class FriendList extends StatelessWidget {
   Widget friendTile(String name) {
     return Container(
       height: 50,
-      width: size.width * 0.9,
+      width: deviceSize.size.width * 0.9,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Transform.rotate(
               angle: math.pi / 4,
-              child: Icon(Icons.navigation, color: Color(0xff654ea3))),
+              child: Icon(Icons.navigation, color: Color(0xff654ea3), size: deviceSize.size.width * 0.077,)),
           SizedBox(width: 15),
           Text(
               name,
             style: TextStyle(
               fontFamily: "Roboto",
-              fontSize: 18,
+              fontSize: deviceSize.size.width * 0.05,
             ),
           ),
         ],
