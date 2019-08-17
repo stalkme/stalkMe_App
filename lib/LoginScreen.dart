@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    userInfo.loadPinIcons();
     locationUtil.getLocation();
     //TODO: Prevent from going further if there is no GPS permission.
     SystemChrome.setPreferredOrientations([
@@ -130,7 +131,9 @@ class _LoginFormState extends State<LoginForm> {
                 padding: EdgeInsets.only(bottom: 0),
                 icon: Icon(Icons.arrow_forward, color: Colors.white, size: 45),
                 onPressed: () {
-                  userInfo.username = myController.text;
+                  if (myController.text.isNotEmpty) {
+                    userInfo.username = myController.text;
+                  }
                   Navigator.pushNamed(context, '/maps');
                 },
               ),

@@ -41,22 +41,10 @@ class _MapsState extends State<Maps> {
   LatLng _center = LatLng(
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
   final Set<Marker> _markers = Set();
-  BitmapDescriptor userIcon;
-  BitmapDescriptor othersIcon;
 
   @override
   void initState() {
     super.initState();
-    BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(size: Size(1, 1)), 'assets/mapsPins/user.png')
-        .then((onValue) {
-      userIcon = onValue;
-    });
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(1, 1)), 'assets/mapsPins/others.png')
-        .then((onValue) {
-      othersIcon = onValue;
-    });
     updateMapMarkers();
   }
 
@@ -85,7 +73,7 @@ class _MapsState extends State<Maps> {
         title: userInfo.username,
         snippet: userInfo.msg,
       ),
-      icon: userIcon,
+      icon: userInfo.userIcon,
     ));
   }
 
