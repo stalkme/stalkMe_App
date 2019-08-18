@@ -6,7 +6,8 @@ import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class NavBar extends StatefulWidget {
-  NavBar({Key key, this.tabController, this.animationController, this.controller})
+  NavBar(
+      {Key key, this.tabController, this.animationController, this.controller})
       : super(key: key);
   final TabController tabController;
   final AnimationController animationController;
@@ -35,7 +36,8 @@ class _NavBarState extends State<NavBar> {
     locationUtil.getLocation();
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(locationUtil.locationData.latitude,
-            locationUtil.locationData.longitude), zoom: 16.0)));
+            locationUtil.locationData.longitude),
+        zoom: 16.0)));
   }
 
   @override
@@ -111,7 +113,11 @@ class _NavBarState extends State<NavBar> {
                 colors: [const Color(0xFFFF416C), const Color(0xFFFF4B2B)]),
           ),
           child: IconButton(
-              onPressed: () {centerMapPosition();},
+              onPressed: () {
+                centerMapPosition();
+                if (widget.animationController.value == 1)
+                  widget.animationController.animateTo(0);
+              },
               icon: Icon(Icons.gps_fixed, color: Colors.white, size: 35)),
         )
       ],
