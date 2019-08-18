@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
+import 'package:stalkme_app/util/userInfo.dart' as userInfo;
 
 class Filter {
   Filter(this.name, this.image);
@@ -12,8 +13,12 @@ class FilterTab extends StatefulWidget {
   _FilterTabState createState() => _FilterTabState();
 }
 
-class _FilterTabState extends State<FilterTab> {
+class _FilterTabState extends State<FilterTab>
+    with SingleTickerProviderStateMixin {
   List<Filter> filters = List();
+  Filter activeFilter;
+  AnimationController _animationController;
+  Animation<Color> _colorAnimation;
 
   @override
   void initState() {
@@ -40,32 +45,66 @@ class _FilterTabState extends State<FilterTab> {
         Filter('PARTYING', AssetImage('assets/filterGraphics/partying.jpg')));
     filters.add(
         Filter('RUNNING', AssetImage('assets/filterGraphics/running.jpg')));
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _colorAnimation = ColorTween(begin: Colors.transparent, end: Colors.grey)
+        .animate(CurvedAnimation(parent: _animationController, curve: Curves.linear))
+          ..addListener(() {
+            setState(() {});
+          });
   }
 
   Widget filterTile(Filter filter) {
-    return Column(
-      children: <Widget>[
-        Container(
-          width: deviceSize.size.width * 0.16,
-          height: deviceSize.size.width * 0.16,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: filter.image,
-                fit: BoxFit.cover,
-                alignment: Alignment.center,
-              )),
-        ),
-        Text(
-          filter.name,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: deviceSize.size.width * 0.042,
-            fontFamily: "Roboto",
+    return GestureDetector(
+      key: Key(filter.name),
+      onTap: () {
+        if (activeFilter == filter) {
+          activeFilter = null;
+          userInfo.filterName = "Default";
+          _animationController.animateTo(0);
+        } else {
+          setState(() {
+            userInfo.filterName = filter.name;
+            _animationController.value = 0;
+            activeFilter = filter;
+            _animationController.animateTo(1);
+          });
+        }
+      },
+      child: Column(
+        children: <Widget>[
+          Container(
+            width: deviceSize.size.width * 0.16,
+            height: deviceSize.size.width * 0.16,
+            decoration: BoxDecoration(
+              color: (activeFilter == filter)
+                  ? _colorAnimation.value
+                  : Colors.transparent,
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Container(
+              width: deviceSize.size.width * 0.16,
+              height: deviceSize.size.width * 0.16,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: filter.image,
+                    fit: BoxFit.cover,
+                    alignment: Alignment.center,
+                  )),
+            ),
           ),
-        )
-      ],
+          Text(
+            filter.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: deviceSize.size.width * 0.042,
+              fontFamily: "Roboto",
+            ),
+          )
+        ],
+      ),
     );
   }
 

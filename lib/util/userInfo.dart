@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 String username = "Player";
 String msg = "Test message";
+String filterName = "Default";
 BitmapDescriptor userIcon;
 BitmapDescriptor othersIcon;
 
