@@ -19,6 +19,7 @@ class _FilterTabState extends State<FilterTab>
   Filter activeFilter;
   AnimationController _animationController;
   Animation<Color> _colorAnimation;
+  Animation<Color> _iconColorAnimation;
 
   @override
   void initState() {
@@ -48,10 +49,11 @@ class _FilterTabState extends State<FilterTab>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _colorAnimation = ColorTween(begin: Colors.transparent, end: Colors.grey)
-        .animate(CurvedAnimation(parent: _animationController, curve: Curves.linear))
+        .animate(_animationController)
           ..addListener(() {
             setState(() {});
           });
+    _iconColorAnimation = ColorTween(begin: Colors.transparent, end: Color(0x44ffffff)).animate(_animationController);
   }
 
   Widget filterTile(Filter filter) {
@@ -88,6 +90,7 @@ class _FilterTabState extends State<FilterTab>
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
+                    colorFilter: (filter == activeFilter) ? ColorFilter.mode(_iconColorAnimation.value, BlendMode.lighten) : null,
                     image: filter.image,
                     fit: BoxFit.cover,
                     alignment: Alignment.center,
