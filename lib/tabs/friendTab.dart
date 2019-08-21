@@ -120,33 +120,94 @@ class FriendList extends StatelessWidget {
               builder: (BuildContext context) {
                 return Center(
                   child: Container(
-                    width: deviceSize.size.width * 0.6,
-                    height: deviceSize.size.height * 0.6,
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: <Widget>[
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(name,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Color(0xcc000000),
-                                  fontFamily: 'Roboto',
-                                  decoration: TextDecoration.none,
-                                )),
-                          ),
-                          SizedBox(height: 15),
-                          Text("His message",
+                    width: deviceSize.size.width * 0.85,
+                    height: deviceSize.size.height * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(name,
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontFamily: 'Roboto',
+                                decoration: TextDecoration.none,
+                              )),
+                        ),
+                        SizedBox(height: 15),
+                        Text("His message",
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Roboto',
+                                fontSize: 14,
+                                color: Color(0x99000000),
+                                decoration: TextDecoration.none)),
+                        SizedBox(height: 15),
+                        Flexible(
+                            child: GestureDetector(
+                          onTap: () {
+                            print('locate');
+
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border(
+                                  top: BorderSide(
+                                      color: Colors.grey, width: 0.5)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Locate friend',
+                                style: TextStyle(
+                                  color: Color(0x99000000),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
                                   fontFamily: 'Roboto',
-                                  fontSize: 15,
-                                  color: Colors.black,
-                                  decoration: TextDecoration.none)),
-                        ],
-                      ),
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )),
+                        Flexible(
+                            child: GestureDetector(
+                          onTap: () {
+                            print('delete');
+
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(0xFFFF416C),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(18),
+                                  bottomRight: Radius.circular(18)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Delete friend',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'Roboto',
+                                  decoration: TextDecoration.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ))
+                      ],
                     ),
                   ),
                 );
