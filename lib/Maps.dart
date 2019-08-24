@@ -37,12 +37,18 @@ class Maps extends StatefulWidget {
   _MapsState createState() => _MapsState();
 }
 
-class _MapsState extends State<Maps> {
+class _MapsState extends State<Maps> with WidgetsBindingObserver{
   LatLng _center = LatLng(
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
   final Set<Marker> _markers = Set();
   TextEditingController _username;
   TextEditingController _message;
+  AppLifecycleState _lifecycleState;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _lifecycleState = state;
+  }
 
   @override
   void initState() {
@@ -50,6 +56,7 @@ class _MapsState extends State<Maps> {
     updateMapMarkers();
     _username = TextEditingController();
     _message = TextEditingController();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -66,11 +73,13 @@ class _MapsState extends State<Maps> {
     });
 
     Timer.periodic(Duration(seconds: 10), (Timer timer) {
-      setState(() {
-        locationUtil.getLocation();
-        addUserPin();
-        //TODO: Add connection to the server and create pins for each user
-      });
+      if (_lifecycleState.index == 0) {
+        setState(() {
+          locationUtil.getLocation();
+          addUserPin();
+          //TODO: Add connection to the server and create pins for each user
+        });
+      }
     });
   }
 
