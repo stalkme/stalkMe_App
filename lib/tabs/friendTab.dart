@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'dart:math' as math;
 
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
+import 'package:stalkme_app/util/userClass.dart';
 
 class FriendTab extends StatefulWidget {
   @override
@@ -10,34 +11,35 @@ class FriendTab extends StatefulWidget {
 }
 
 class _FriendTabState extends State<FriendTab> {
-  List<String> friends = List();
-  List<String> filteredFriends = List();
+  //List<String> friends = List();
+  //List<String> filteredFriends = List();
+  List<User> friendList = List();
+  List<User> filteredFriendList = List();
   TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
-
-    for (int i = 0; i < 10; i++) {
-      friends.add('Friend $i');
-    }
-    filteredFriends.addAll(friends);
+    friendList.add(User(nickname: 'Abcde', message: 'Message 1'));
+    friendList.add(User(nickname: 'ghijk', message: 'Message 2'));
+    filteredFriendList.addAll(friendList);
 
     textEditingController = TextEditingController()
       ..addListener(() {
         if (textEditingController.text.isEmpty) {
           setState(() {
-            filteredFriends.clear();
-            filteredFriends.addAll(friends);
+            filteredFriendList.clear();
+            filteredFriendList.addAll(friendList);
           });
         } else {
           setState(() {
-            filteredFriends.clear();
-            for (int i = 0; i < friends.length; i++) {
-              if (friends[i]
+            filteredFriendList.clear();
+            for (int i = 0; i < friendList.length; i++) {
+              if (friendList[i]
+                  .nickname
                   .toLowerCase()
                   .contains(textEditingController.text.toLowerCase())) {
-                filteredFriends.add(friends[i]);
+                filteredFriendList.add(friendList[i]);
               }
             }
           });
@@ -57,7 +59,7 @@ class _FriendTabState extends State<FriendTab> {
       children: <Widget>[
         SearchBar(textEditingController: textEditingController),
         SizedBox(height: 20),
-        FriendList(filteredFriends: filteredFriends),
+        FriendList(filteredFriendList: filteredFriendList, friendList: friendList,),
       ],
     );
   }
@@ -103,11 +105,18 @@ class _SearchBarState extends State<SearchBar> {
   }
 }
 
-class FriendList extends StatelessWidget {
-  FriendList({Key key, @required this.filteredFriends}) : super(key: key);
-  final List filteredFriends;
+class FriendList extends StatefulWidget {
+  FriendList({Key key, @required this.filteredFriendList, @required this.friendList}) : super(key: key);
+  final List<User> filteredFriendList;
+  final List<User> friendList;
 
-  Widget friendTile(BuildContext context, String name) {
+  @override
+  _FriendListState createState() => _FriendListState();
+}
+
+class _FriendListState extends State<FriendList> {
+
+  Widget friendTile(BuildContext context, User user) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -133,7 +142,7 @@ class FriendList extends StatelessWidget {
                         ),
                         Align(
                           alignment: Alignment.center,
-                          child: Text(name,
+                          child: Text(user.nickname,
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 16,
@@ -143,7 +152,7 @@ class FriendList extends StatelessWidget {
                               )),
                         ),
                         SizedBox(height: 15),
-                        Text("His message",
+                        Text(user.message,
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontFamily: 'Roboto',
@@ -183,7 +192,10 @@ class FriendList extends StatelessWidget {
                             child: GestureDetector(
                           onTap: () {
                             print('delete');
-
+                            setState(() {
+                              widget.friendList.remove(user);
+                              widget.filteredFriendList.remove(user);
+                            });
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -228,7 +240,7 @@ class FriendList extends StatelessWidget {
                   )),
               SizedBox(width: 15),
               Text(
-                name,
+                user.nickname,
                 style: TextStyle(
                   fontFamily: "Roboto",
                   fontSize: deviceSize.size.width * 0.05,
@@ -244,7 +256,8 @@ class FriendList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children:
-            filteredFriends.map((item) => friendTile(context, item)).toList());
+        children: widget.filteredFriendList
+            .map((item) => friendTile(context, item))
+            .toList());
   }
 }
