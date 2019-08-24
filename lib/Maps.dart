@@ -64,6 +64,7 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
     _username.dispose();
     _message.dispose();
     super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   void updateMapMarkers() {
