@@ -93,7 +93,7 @@ class _MapsState extends State<Maps> {
                 color: Colors.transparent,
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: userInfo.username,
+                    hintText: userInfo.userInfo.nickname,
                     icon: Icon(Icons.account_circle, color: Color(0xFFFF483E)),
                   ),
                   controller: _username,
@@ -107,9 +107,9 @@ class _MapsState extends State<Maps> {
                 color: Colors.transparent,
                 child: TextField(
                   decoration: InputDecoration(
-                    hintText: (userInfo.msg.isEmpty)
+                    hintText: (userInfo.userInfo.message.isEmpty)
                         ? 'Your new message'
-                        : userInfo.msg,
+                        : userInfo.userInfo.message,
                     icon: Icon(Icons.message, color: Color(0xFFFF483E)),
                   ),
                   controller: _message,
@@ -146,9 +146,9 @@ class _MapsState extends State<Maps> {
               onTap: () {
                 Navigator.pop(context);
                 if (_username.text.isNotEmpty) {
-                  userInfo.username = _username.text;
+                  userInfo.userInfo.nickname = _username.text;
                 }
-                userInfo.msg = _message.text;
+                userInfo.userInfo.message = _message.text;
                 _username.clear();
                 _message.clear();
               },
@@ -186,8 +186,8 @@ class _MapsState extends State<Maps> {
       position: LatLng(locationUtil.locationData.latitude,
           locationUtil.locationData.longitude),
       infoWindow: InfoWindow(
-          title: userInfo.username,
-          snippet: userInfo.msg,
+          title: userInfo.userInfo.nickname,
+          snippet: userInfo.userInfo.message,
           onTap: () {
             showDialog(context: context, builder: userDialogBuilder);
           }),

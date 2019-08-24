@@ -2,6 +2,7 @@ import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stalkme_app/util/userInfo.dart';
 
 bool _permission = false;
 
@@ -19,6 +20,8 @@ getLocation() async {
       print("Permission: $_permission");
       if (_permission) {
         locationData = await location.getLocation();
+        userInfo.latitude = locationData.latitude;
+        userInfo.longitude = locationData.longitude;
 //        print("${locationData.latitude}  ${locationData.longitude}");
 //        location.onLocationChanged().listen((LocationData changedLocation) {
 //          locationData = changedLocation;

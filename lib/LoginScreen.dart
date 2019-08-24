@@ -132,7 +132,7 @@ class _LoginFormState extends State<LoginForm> {
                 icon: Icon(Icons.arrow_forward, color: Colors.white, size: 45),
                 onPressed: () {
                   if (myController.text.isNotEmpty) {
-                    userInfo.username = myController.text;
+                    userInfo.userInfo.nickname = myController.text;
                   }
                   Navigator.pushNamed(context, '/maps');
                 },

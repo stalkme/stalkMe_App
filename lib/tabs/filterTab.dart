@@ -62,11 +62,11 @@ class _FilterTabState extends State<FilterTab>
       onTap: () {
         if (activeFilter == filter) {
           activeFilter = null;
-          userInfo.filterName = "Default";
+          userInfo.userInfo.activity = "Default";
           _animationController.animateTo(0);
         } else {
           setState(() {
-            userInfo.filterName = filter.name;
+            userInfo.userInfo.activity = filter.name;
             _animationController.value = 0;
             activeFilter = filter;
             _animationController.animateTo(1);
