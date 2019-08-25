@@ -95,12 +95,11 @@ class _SearchBarState extends State<SearchBar> {
               Icon(Icons.search,
                   color: Theme.of(context).textTheme.body1.color),
               SizedBox(
-                width: 5,
+                width: 8,
               ),
               Expanded(
                 child: TextField(
                   controller: widget.textEditingController,
-                  autofocus: true,
                   decoration: InputDecoration(
                       border: InputBorder.none, hintText: 'Find a friend'),
                   style: Theme.of(context).textTheme.body2,
