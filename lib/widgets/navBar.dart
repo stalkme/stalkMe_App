@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
 class NavBar extends StatefulWidget {
   NavBar(
-      {Key key, this.tabController, this.animationController, this.controller})
+      {Key key, this.tabController, this.panelController, this.controller})
       : super(key: key);
   final TabController tabController;
-  final AnimationController animationController;
+  final PanelController panelController;
   final Completer<GoogleMapController> controller;
 
   @override
@@ -35,8 +35,8 @@ class _NavBarState extends State<NavBar> {
     GoogleMapController mapController = await widget.controller.future;
     locationUtil.getLocation();
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(locationUtil.locationData.latitude,
-            locationUtil.locationData.longitude),
+        target: LatLng(52.232855,
+            20.9211116),
         zoom: 16.0)));
   }
 
@@ -69,14 +69,14 @@ class _NavBarState extends State<NavBar> {
                   builder: (BuildContext context, Widget child) {
                     return IconButton(
                       icon: Icon(Icons.supervisor_account,
-                          color: (widget.animationController.value != 0)
+                          color: (widget.panelController.isPanelOpen())
                               ? _leftIconAnimation.value
                               : Colors.white,
                           size: 35),
                       onPressed: () {
                         widget.tabController.animateTo(0);
-                        if (widget.animationController.value == 0)
-                          widget.animationController.animateTo(1);
+                        if (widget.panelController.isPanelClosed())
+                          widget.panelController.open();
                       },
                       padding: EdgeInsets.only(bottom: 2, left: 20),
                     );
@@ -86,14 +86,14 @@ class _NavBarState extends State<NavBar> {
                   builder: (BuildContext context, Widget child) {
                     return IconButton(
                       icon: Icon(Icons.filter_list,
-                          color: (widget.animationController.value != 0)
+                          color: (widget.panelController.isPanelOpen())
                               ? _rightIconAnimation.value
                               : Colors.white,
                           size: 34),
                       onPressed: () {
                         widget.tabController.animateTo(1);
-                        if (widget.animationController.value == 0)
-                          widget.animationController.animateTo(1);
+                        if (widget.panelController.isPanelClosed())
+                          widget.panelController.open();
                       },
                       padding: EdgeInsets.only(bottom: 2, right: 20),
                     );
@@ -115,8 +115,8 @@ class _NavBarState extends State<NavBar> {
           child: IconButton(
               onPressed: () {
                 centerMapPosition();
-                if (widget.animationController.value == 1)
-                  widget.animationController.animateTo(0);
+                if (widget.panelController.isPanelOpen())
+                  widget.panelController.close();
               },
               icon: Icon(Icons.gps_fixed, color: Colors.white, size: 35)),
         )

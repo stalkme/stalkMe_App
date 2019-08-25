@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/widgets/BottomMenu.dart';
@@ -16,17 +17,21 @@ class MapsMainScreen extends StatefulWidget {
 
 class _MapsMainScreenState extends State<MapsMainScreen> {
   Completer<GoogleMapController> controller = Completer();
+  PanelController panelController = PanelController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Maps(controller: controller),
-          Align(
-              alignment: Alignment.bottomCenter,
-              child: BottomMenu(controller: controller)),
-        ],
+      body: SlidingUpPanel(
+        controller: panelController,
+        maxHeight: deviceSize.size.height * 0.6 + 66,
+        minHeight: 66,
+        parallaxEnabled: true,
+        parallaxOffset: .5,
+        color: Colors.transparent,
+        boxShadow: null,
+        body: Maps(controller: controller),
+        panel: BottomMenu(controller: controller, panelController: panelController),
       ),
     );
   }
