@@ -81,25 +81,32 @@ class _SearchBarState extends State<SearchBar> {
     return Align(
       alignment: Alignment.center,
       child: Container(
-        width: deviceSize.size.width * 0.85,
-        height: 35,
         decoration: BoxDecoration(
-            color: Color(0xffe0e0e0),
-            borderRadius: BorderRadius.all(Radius.circular(18)),
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x26000000),
-                offset: Offset(0, 3),
-                blurRadius: 6,
-              )
-            ]),
-        child: TextField(
-          controller: widget.textEditingController,
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search, color: Colors.white),
-            hintText: 'Find a friend',
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 7),
+          borderRadius: BorderRadius.circular(20),
+          color: Color(0xFFF5F5F5),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        margin: EdgeInsets.symmetric(horizontal: 8),
+        height: 40,
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: <Widget>[
+              Icon(Icons.search,
+                  color: Theme.of(context).textTheme.body1.color),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: TextField(
+                  controller: widget.textEditingController,
+                  autofocus: true,
+                  decoration: InputDecoration(
+                      border: InputBorder.none, hintText: 'Find a friend'),
+                  style: Theme.of(context).textTheme.body2,
+                ),
+              ),
+            ],
           ),
         ),
       ),
