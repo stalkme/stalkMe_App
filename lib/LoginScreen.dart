@@ -33,14 +33,18 @@ class LoginScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: 40,
+//            SizedBox(
+//              height: 40,
+//            ),
+            Image.asset(
+              'assets/vectors/login.png',
+              width: size.width * 0.8,
             ),
-            Text('STALK.ME',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 31,
-                )),
+//            Text('STALK.ME',
+//                style: TextStyle(
+//                  color: Colors.white,
+//                  fontSize: 31,
+//                )),
             SizedBox(
               height: 30,
             ),
@@ -85,7 +89,7 @@ class _LoginFormState extends State<LoginForm> {
             Container(
               width: size.width * 0.80,
               padding: EdgeInsets.only(left: 10),
-              margin: EdgeInsets.only(top: size.height * 0.25),
+              margin: EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(26)),

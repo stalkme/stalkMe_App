@@ -4,6 +4,7 @@ import 'dart:math' as math;
 
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/util/userClass.dart';
+import 'package:stalkme_app/util/friendList.dart';
 
 class FriendTab extends StatefulWidget {
   @override
@@ -11,9 +12,7 @@ class FriendTab extends StatefulWidget {
 }
 
 class _FriendTabState extends State<FriendTab> {
-  //List<String> friends = List();
-  //List<String> filteredFriends = List();
-  List<User> friendList = List();
+  //List<User> friendList = List();
   List<User> filteredFriendList = List();
   TextEditingController textEditingController;
 
@@ -59,7 +58,10 @@ class _FriendTabState extends State<FriendTab> {
       children: <Widget>[
         SearchBar(textEditingController: textEditingController),
         SizedBox(height: 20),
-        FriendList(filteredFriendList: filteredFriendList, friendList: friendList,),
+        FriendList(
+          filteredFriendList: filteredFriendList,
+          friendList: friendList,
+        ),
       ],
     );
   }
@@ -106,7 +108,9 @@ class _SearchBarState extends State<SearchBar> {
 }
 
 class FriendList extends StatefulWidget {
-  FriendList({Key key, @required this.filteredFriendList, @required this.friendList}) : super(key: key);
+  FriendList(
+      {Key key, @required this.filteredFriendList, @required this.friendList})
+      : super(key: key);
   final List<User> filteredFriendList;
   final List<User> friendList;
 
@@ -115,7 +119,6 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
-
   Widget friendTile(BuildContext context, User user) {
     return Material(
       color: Colors.transparent,
@@ -255,9 +258,11 @@ class _FriendListState extends State<FriendList> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        children: widget.filteredFriendList
-            .map((item) => friendTile(context, item))
-            .toList());
+    return (friendList.isNotEmpty)
+        ? Column(
+            children: widget.filteredFriendList
+                .map((item) => friendTile(context, item))
+                .toList())
+        : Center(child: Image.asset('assets/vectors/listEmpty.png'));
   }
 }

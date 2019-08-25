@@ -6,6 +6,7 @@ import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/widgets/BottomMenu.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 import 'package:stalkme_app/util/userInfo.dart' as userInfo;
+import 'package:stalkme_app/util/userClass.dart';
 
 class MapsMainScreen extends StatefulWidget {
   @override

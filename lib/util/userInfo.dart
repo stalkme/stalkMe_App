@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:stalkme_app/util/userClass.dart';
 
 User userInfo = User(nickname: 'Player', message: '', activity: 'Default');
-String nickname = "Player";
-String message = "";
-String activity = "Default";
 BitmapDescriptor userIcon;
 BitmapDescriptor othersIcon;
 
