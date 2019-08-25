@@ -7,7 +7,7 @@ class User {
   String activity;
 
   User({this.id, this.nickname, this.message, this.latitude, this.longitude,
-      this.activity});
+      this.activity = 'Default'});
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
