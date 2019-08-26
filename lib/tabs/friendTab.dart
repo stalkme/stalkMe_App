@@ -150,7 +150,7 @@ class _FriendListState extends State<FriendList> {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          //TODO: On clicked focus map on friend's location.
+          locateFriend(user);
         },
         onLongPress: () {
           showDialog(
