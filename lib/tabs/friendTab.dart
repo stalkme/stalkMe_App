@@ -64,7 +64,7 @@ class _FriendTabState extends State<FriendTab> {
     filteredFriendList.addAll(friendList);
 
     return Padding(
-      padding: EdgeInsets.only(left: 0.0, top: 8.0, right: 0.0, bottom: 0),
+      padding: EdgeInsets.only(top: 8.0),
       child: Column(
         children: <Widget>[
           SearchBar(textEditingController: textEditingController),
