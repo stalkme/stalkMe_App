@@ -54,15 +54,24 @@ class _FriendTabState extends State<FriendTab> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        SearchBar(textEditingController: textEditingController),
-        SizedBox(height: 20),
-        FriendList(
-          filteredFriendList: filteredFriendList,
-          friendList: friendList,
-        ),
-      ],
+    return Padding(
+      padding: EdgeInsets.only(left: 0.0, top: 8.0, right: 0.0, bottom: 0),
+      child: Column(
+        children: <Widget>[
+          SearchBar(textEditingController: textEditingController),
+          SizedBox(height: 8.0,),
+          Expanded (
+            child: ListView(
+              children: <Widget>[
+                FriendList(
+                  filteredFriendList: filteredFriendList,
+                  friendList: friendList,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -86,7 +95,7 @@ class _SearchBarState extends State<SearchBar> {
           color: Color(0xFFF5F5F5),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 15),
-        margin: EdgeInsets.symmetric(horizontal: 8),
+        margin: const EdgeInsets.symmetric(horizontal: 8),
         height: 40,
         child: Align(
           alignment: Alignment.centerLeft,

@@ -50,7 +50,9 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
             controller: widget.controller,
           ),
           SizedBox(height: 5),
-          ContextMenu(tabController: tabController),
+          Expanded(
+            child: ContextMenu(tabController: tabController),
+          ),
         ],
       ),
     );
@@ -69,47 +71,43 @@ class _ContextMenuState extends State<ContextMenu>
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height * 0.6,
-      width: size.width,
-      child: TabBarView(
-        controller: widget.tabController,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x26000000),
-                  offset: Offset(0, 3),
-                  blurRadius: 6,
-                )
-              ],
-            ),
-            child: FriendTab(),
+    return TabBarView(
+      controller: widget.tabController,
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x26000000),
+                offset: Offset(0, 3),
+                blurRadius: 6,
+              )
+            ],
           ),
-          Container(
-            height: size.height * 0.6,
-            width: size.width,
-            padding: EdgeInsets.all(0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0x26000000),
-                  offset: Offset(0, 3),
-                  blurRadius: 6,
-                )
-              ],
-            ),
-            child: FilterTab(),
+          child: FriendTab(),
+        ),
+        Container(
+          height: size.height * 0.6,
+          width: size.width,
+          padding: EdgeInsets.all(0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0x26000000),
+                offset: Offset(0, 3),
+                blurRadius: 6,
+              )
+            ],
           ),
-        ],
-      ),
+          child: FilterTab(),
+        ),
+      ],
     );
   }
 }
