@@ -31,7 +31,7 @@ class _MapsMainScreenState extends State<MapsMainScreen> {
         color: Colors.transparent,
         boxShadow: null,
         body: Maps(controller: controller),
-        panel: BottomMenu(controller: controller, panelController: panelController),
+        panel: BottomMenu(googleMapController: controller, panelController: panelController),
       ),
     );
   }
