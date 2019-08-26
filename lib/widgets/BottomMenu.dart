@@ -10,7 +10,9 @@ import 'package:stalkme_app/util/deviceSize.dart';
 
 class BottomMenu extends StatefulWidget {
   BottomMenu(
-      {Key key, @required this.googleMapController, @required this.panelController})
+      {Key key,
+      @required this.googleMapController,
+      @required this.panelController})
       : super(key: key);
   final Completer<GoogleMapController> googleMapController;
   final PanelController panelController;
@@ -51,7 +53,10 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
           ),
           SizedBox(height: 5),
           Expanded(
-            child: ContextMenu(tabController: tabController, googleMapController: widget.googleMapController,),
+            child: ContextMenu(
+              tabController: tabController,
+              googleMapController: widget.googleMapController,
+            ),
           ),
         ],
       ),
@@ -60,7 +65,11 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
 }
 
 class ContextMenu extends StatefulWidget {
-  ContextMenu({Key key, @required this.tabController, @required this.googleMapController}) : super(key: key);
+  ContextMenu(
+      {Key key,
+      @required this.tabController,
+      @required this.googleMapController})
+      : super(key: key);
   final TabController tabController;
   final Completer<GoogleMapController> googleMapController;
   @override
@@ -75,38 +84,60 @@ class _ContextMenuState extends State<ContextMenu>
     return TabBarView(
       controller: widget.tabController,
       children: <Widget>[
-        Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x26000000),
-                offset: Offset(0, 3),
-                blurRadius: 6,
-              )
-            ],
-          ),
-          child: FriendTab(googleMapController: widget.googleMapController,),
+        AnimatedBuilder(
+          animation: widget.tabController.animation,
+          builder: (BuildContext context, snapshot) {
+            return Transform.scale(
+              alignment: Alignment.bottomCenter,
+              scale: 1 - widget.tabController.animation.value * 0.05,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
+                    )
+                  ],
+                ),
+                child: FriendTab(
+                  googleMapController: widget.googleMapController,
+                ),
+              ),
+            );
+          },
         ),
-        Container(
-          height: size.height * 0.6,
-          width: size.width,
-          padding: EdgeInsets.all(0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Color(0x26000000),
-                offset: Offset(0, 3),
-                blurRadius: 6,
-              )
-            ],
-          ),
-          child: FilterTab(),
+        AnimatedBuilder(
+          animation: widget.tabController.animation,
+          builder: (BuildContext context, snapshot) {
+            return Transform.scale(
+              alignment: Alignment.bottomCenter,
+              scale: 1 - (1 - widget.tabController.animation.value) * 0.05,
+              child: Container(
+                height: size.height * 0.6,
+                width: size.width,
+                padding: EdgeInsets.all(0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x26000000),
+                      offset: Offset(0, 3),
+                      blurRadius: 6,
+                    )
+                  ],
+                ),
+                child: FilterTab(),
+              ),
+            );
+          },
         ),
       ],
     );
