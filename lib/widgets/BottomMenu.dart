@@ -10,9 +10,9 @@ import 'package:stalkme_app/util/deviceSize.dart';
 
 class BottomMenu extends StatefulWidget {
   BottomMenu(
-      {Key key, @required this.controller, @required this.panelController})
+      {Key key, @required this.googleMapController, @required this.panelController})
       : super(key: key);
-  final Completer<GoogleMapController> controller;
+  final Completer<GoogleMapController> googleMapController;
   final PanelController panelController;
 
   @override
@@ -47,10 +47,10 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
           NavBar(
             tabController: tabController,
             panelController: widget.panelController,
-            controller: widget.controller,
+            controller: widget.googleMapController,
           ),
           SizedBox(height: 5),
-          ContextMenu(tabController: tabController),
+          ContextMenu(tabController: tabController, googleMapController: widget.googleMapController,),
         ],
       ),
     );
@@ -58,8 +58,9 @@ class _BottomMenuState extends State<BottomMenu> with TickerProviderStateMixin {
 }
 
 class ContextMenu extends StatefulWidget {
-  ContextMenu({Key key, @required this.tabController}) : super(key: key);
+  ContextMenu({Key key, @required this.tabController, @required this.googleMapController}) : super(key: key);
   final TabController tabController;
+  final Completer<GoogleMapController> googleMapController;
   @override
   _ContextMenuState createState() => _ContextMenuState();
 }
@@ -88,7 +89,7 @@ class _ContextMenuState extends State<ContextMenu>
                 )
               ],
             ),
-            child: FriendTab(),
+            child: FriendTab(googleMapController: widget.googleMapController,),
           ),
           Container(
             height: size.height * 0.6,

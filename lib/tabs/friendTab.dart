@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'dart:math' as math;
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dart:async';
 
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/util/userClass.dart';
 import 'package:stalkme_app/util/friendList.dart';
 
 class FriendTab extends StatefulWidget {
+  FriendTab({Key key, @required this.googleMapController}) : super(key: key);
+  final Completer<GoogleMapController> googleMapController;
+
   @override
   _FriendTabState createState() => _FriendTabState();
 }
 
 class _FriendTabState extends State<FriendTab> {
-  //List<User> friendList = List();
   List<User> filteredFriendList = List();
   TextEditingController textEditingController;
 
   @override
   void initState() {
     super.initState();
-    friendList.add(User(nickname: 'Abcde', message: 'Message 1'));
-    friendList.add(User(nickname: 'ghijk', message: 'Message 2'));
+    filteredFriendList.clear();
     filteredFriendList.addAll(friendList);
 
     textEditingController = TextEditingController()
@@ -60,7 +63,7 @@ class _FriendTabState extends State<FriendTab> {
         SizedBox(height: 20),
         FriendList(
           filteredFriendList: filteredFriendList,
-          friendList: friendList,
+          googleMapController: widget.googleMapController,
         ),
       ],
     );
@@ -115,16 +118,24 @@ class _SearchBarState extends State<SearchBar> {
 
 class FriendList extends StatefulWidget {
   FriendList(
-      {Key key, @required this.filteredFriendList, @required this.friendList})
+      {Key key, @required this.filteredFriendList, @required this.googleMapController})
       : super(key: key);
   final List<User> filteredFriendList;
-  final List<User> friendList;
+  final Completer<GoogleMapController> googleMapController;
 
   @override
   _FriendListState createState() => _FriendListState();
 }
 
 class _FriendListState extends State<FriendList> {
+
+  Future<void> locateFriend(User user) async{
+    GoogleMapController _mapController = await widget.googleMapController.future;
+    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target: LatLng(user.latitude, user.longitude),
+        zoom: 16.0)));
+  }
+
   Widget friendTile(BuildContext context, User user) {
     return Material(
       color: Colors.transparent,
@@ -172,8 +183,7 @@ class _FriendListState extends State<FriendList> {
                         Flexible(
                             child: GestureDetector(
                           onTap: () {
-                            print('locate');
-
+                            locateFriend(user);
                             Navigator.pop(context);
                           },
                           child: Container(
@@ -202,7 +212,7 @@ class _FriendListState extends State<FriendList> {
                           onTap: () {
                             print('delete');
                             setState(() {
-                              widget.friendList.remove(user);
+                              friendList.remove(user);
                               widget.filteredFriendList.remove(user);
                             });
                             Navigator.pop(context);

@@ -35,8 +35,7 @@ class _NavBarState extends State<NavBar> {
     GoogleMapController mapController = await widget.controller.future;
     locationUtil.getLocation();
     mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(52.232855,
-            20.9211116),
+        target: LatLng(locationUtil.locationData.latitude, locationUtil.locationData.longitude),
         zoom: 16.0)));
   }
 
