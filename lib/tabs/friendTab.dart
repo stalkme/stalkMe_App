@@ -23,8 +23,6 @@ class _FriendTabState extends State<FriendTab> {
   @override
   void initState() {
     super.initState();
-    filteredFriendList.clear();
-    filteredFriendList.addAll(friendList);
 
     textEditingController = TextEditingController()
       ..addListener(() {
@@ -55,17 +53,27 @@ class _FriendTabState extends State<FriendTab> {
     super.dispose();
   }
 
+  Future<void> _onRefresh() async {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        SearchBar(textEditingController: textEditingController),
-        SizedBox(height: 20),
-        FriendList(
-          filteredFriendList: filteredFriendList,
-          googleMapController: widget.googleMapController,
-        ),
-      ],
+    filteredFriendList.clear();
+    filteredFriendList.addAll(friendList);
+
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: ListView(
+        children: <Widget>[
+          SearchBar(textEditingController: textEditingController),
+          SizedBox(height: 20),
+          FriendList(
+            filteredFriendList: filteredFriendList,
+            googleMapController: widget.googleMapController,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -118,7 +126,9 @@ class _SearchBarState extends State<SearchBar> {
 
 class FriendList extends StatefulWidget {
   FriendList(
-      {Key key, @required this.filteredFriendList, @required this.googleMapController})
+      {Key key,
+      @required this.filteredFriendList,
+      @required this.googleMapController})
       : super(key: key);
   final List<User> filteredFriendList;
   final Completer<GoogleMapController> googleMapController;
@@ -128,12 +138,11 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
-
-  Future<void> locateFriend(User user) async{
-    GoogleMapController _mapController = await widget.googleMapController.future;
+  Future<void> locateFriend(User user) async {
+    GoogleMapController _mapController =
+        await widget.googleMapController.future;
     _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(user.latitude, user.longitude),
-        zoom: 16.0)));
+        target: LatLng(user.latitude, user.longitude), zoom: 16.0)));
   }
 
   Widget friendTile(BuildContext context, User user) {
