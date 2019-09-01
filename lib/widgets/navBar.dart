@@ -24,10 +24,10 @@ class _NavBarState extends State<NavBar> {
   @override
   void initState() {
     super.initState();
-    _rightIconAnimation =
+    _leftIconAnimation =
         ColorTween(begin: Colors.white, end: Color(0xffd8d8d8))
             .animate(widget.tabController.animation);
-    _leftIconAnimation = ColorTween(begin: Color(0xffd8d8d8), end: Colors.white)
+    _rightIconAnimation = ColorTween(begin: Color(0xffd8d8d8), end: Colors.white)
         .animate(widget.tabController.animation);
   }
 
