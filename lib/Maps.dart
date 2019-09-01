@@ -9,6 +9,7 @@ import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 import 'package:stalkme_app/util/userInfo.dart' as userInfo;
 import 'package:stalkme_app/util/userClass.dart';
 import 'package:stalkme_app/util/friendList.dart';
+import 'package:stalkme_app/util/databaseHelper.dart';
 
 class MapsMainScreen extends StatefulWidget {
   @override
@@ -48,6 +49,7 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
   LatLng _center = LatLng(
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
   final Set<Marker> _markers = Set();
+  final dbHelper = DatabaseHelper.instance;
   TextEditingController _username;
   TextEditingController _message;
   AppLifecycleState _lifecycleState;
@@ -286,9 +288,15 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
                       Flexible(
                           child: GestureDetector(
                             onTap: () {
-                              setState(() {
-                                friendList.add(user);
-                              });
+                              if (!dbHelper.friendList.contains(user)) {
+                                setState(() {
+                                  dbHelper.addFriend(user);
+                                });
+                              } else {
+                                setState((){
+                                  dbHelper.removeFriend(user);
+                                });
+                              }
                               Navigator.pop(context);
                             },
                             child: Container(
@@ -300,7 +308,7 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
                               ),
                               child: Center(
                                 child: Text(
-                                  'Add to friends',
+                                  (!dbHelper.friendList.contains(user)) ? 'Add to friends' : 'Delete friend',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,

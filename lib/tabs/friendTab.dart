@@ -7,6 +7,7 @@ import 'dart:async';
 import 'package:stalkme_app/util/deviceSize.dart' as deviceSize;
 import 'package:stalkme_app/util/userClass.dart';
 import 'package:stalkme_app/util/friendList.dart';
+import 'package:stalkme_app/util/databaseHelper.dart';
 
 class FriendTab extends StatefulWidget {
   FriendTab({Key key, @required this.googleMapController}) : super(key: key);
@@ -19,6 +20,7 @@ class FriendTab extends StatefulWidget {
 class _FriendTabState extends State<FriendTab> {
   List<User> filteredFriendList = List();
   TextEditingController textEditingController;
+  DatabaseHelper dbHelper = DatabaseHelper.instance;
 
   @override
   void initState() {
@@ -29,17 +31,16 @@ class _FriendTabState extends State<FriendTab> {
         if (textEditingController.text.isEmpty) {
           setState(() {
             filteredFriendList.clear();
-            filteredFriendList.addAll(friendList);
+            filteredFriendList.addAll(dbHelper.friendList);
           });
         } else {
           setState(() {
             filteredFriendList.clear();
-            for (int i = 0; i < friendList.length; i++) {
-              if (friendList[i]
-                  .nickname
+            for (int i = 0; i < dbHelper.friendList.length; i++) {
+              if (dbHelper.friendList[i].nickname
                   .toLowerCase()
                   .contains(textEditingController.text.toLowerCase())) {
-                filteredFriendList.add(friendList[i]);
+                filteredFriendList.add(dbHelper.friendList[i]);
               }
             }
           });
@@ -59,17 +60,18 @@ class _FriendTabState extends State<FriendTab> {
 
   @override
   Widget build(BuildContext context) {
-
     filteredFriendList.clear();
-    filteredFriendList.addAll(friendList);
+    filteredFriendList.addAll(dbHelper.friendList);
 
     return Padding(
       padding: EdgeInsets.only(left: 0.0, top: 8.0, right: 0.0, bottom: 0),
       child: Column(
         children: <Widget>[
           SearchBar(textEditingController: textEditingController),
-          SizedBox(height: 8.0,),
-          Expanded (
+          SizedBox(
+            height: 8.0,
+          ),
+          Expanded(
             child: RefreshIndicator(
               onRefresh: _onRefresh,
               child: ListView(
@@ -148,11 +150,16 @@ class FriendList extends StatefulWidget {
 }
 
 class _FriendListState extends State<FriendList> {
+  final dbHelper = DatabaseHelper.instance;
+
   Future<void> locateFriend(User user) async {
-    GoogleMapController _mapController =
-        await widget.googleMapController.future;
-    _mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(user.latitude, user.longitude), zoom: 16.0)));
+    if (user.longitude != null && user.latitude != null) {
+      GoogleMapController _mapController =
+          await widget.googleMapController.future;
+      _mapController.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+              target: LatLng(user.latitude, user.longitude), zoom: 16.0)));
+    }
   }
 
   Widget friendTile(BuildContext context, User user) {
@@ -231,7 +238,7 @@ class _FriendListState extends State<FriendList> {
                           onTap: () {
                             print('delete');
                             setState(() {
-                              friendList.remove(user);
+                              dbHelper.removeFriend(user);
                               widget.filteredFriendList.remove(user);
                             });
                             Navigator.pop(context);
@@ -293,7 +300,7 @@ class _FriendListState extends State<FriendList> {
 
   @override
   Widget build(BuildContext context) {
-    return (friendList.isNotEmpty)
+    return (dbHelper.friendList.isNotEmpty)
         ? Column(
             children: widget.filteredFriendList
                 .map((item) => friendTile(context, item))
