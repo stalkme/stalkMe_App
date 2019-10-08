@@ -5,6 +5,7 @@ import 'package:location/location.dart';
 import 'package:stalkme_app/util/deviceSize.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 import 'package:stalkme_app/util/userInfo.dart' as userInfo;
+import 'package:stalkme_app/util/serverConnectionHelper.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -18,6 +19,10 @@ class LoginScreen extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
+    ServerConnectionHelper scHelper = ServerConnectionHelper.instance;
+    scHelper.connectToServer();
+
     size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(

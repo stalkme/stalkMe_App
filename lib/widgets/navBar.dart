@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 
@@ -41,6 +42,7 @@ class _NavBarState extends State<NavBar> {
 
   @override
   Widget build(BuildContext context) {
+    String _anim = "idle";
     return Stack(
       alignment: Alignment.center,
       children: <Widget>[
@@ -118,6 +120,18 @@ class _NavBarState extends State<NavBar> {
                   widget.panelController.close();
               },
               icon: Icon(Icons.gps_fixed, color: Colors.white, size: 35)),
+//          child: GestureDetector(
+//            onTap: (){
+//              setState(() {
+//                _anim = 'click';
+//              });
+//              _anim = 'idle';
+//            },
+//            child: FlareActor(
+//              'assets/flare/locate.flr',
+//              animation: 'click',
+//            ),
+//          )
         )
       ],
     );

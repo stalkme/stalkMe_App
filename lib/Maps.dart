@@ -8,8 +8,8 @@ import 'package:stalkme_app/widgets/BottomMenu.dart';
 import 'package:stalkme_app/util/locationUtil.dart' as locationUtil;
 import 'package:stalkme_app/util/userInfo.dart' as userInfo;
 import 'package:stalkme_app/util/userClass.dart';
-import 'package:stalkme_app/util/friendList.dart';
 import 'package:stalkme_app/util/databaseHelper.dart';
+import 'package:stalkme_app/util/serverConnectionHelper.dart';
 
 class MapsMainScreen extends StatefulWidget {
   @override
@@ -50,10 +50,13 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
       locationUtil.locationData.latitude, locationUtil.locationData.longitude);
   final Set<Marker> _markers = Set();
   final dbHelper = DatabaseHelper.instance;
+  final scHelper = ServerConnectionHelper.instance;
+  List<User> userList = List();
   TextEditingController _username;
   TextEditingController _message;
   AppLifecycleState _lifecycleState;
 
+  //Observes state of the app. If app is minimalized it disables automatic setState
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     _lifecycleState = state;
@@ -89,8 +92,10 @@ class _MapsState extends State<Maps> with WidgetsBindingObserver{
           _markers.clear();
           locationUtil.getLocation();
           addUserPin();
-          addOthersPin(User(nickname: 'Test', message: 'My message', latitude: 51.403704, longitude: 21.148934));
-          //TODO: Add connection to the server and create pins for each user
+          scHelper.connectToServer();
+          for (var user in scHelper.userList) {
+            addOthersPin(user);
+          }
         });
       }
     });
